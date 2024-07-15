@@ -10,14 +10,9 @@ type Author struct {
 	Name string
 }
 
-func GetCSV() error {
-	file, err := os.Open("./data.csv")
-	if err != nil {
-		return err
-	}
-	defer file.Close()
+func GetCSV(filePath *os.File) error {
 
-	records, err := csv.NewReader(file).ReadAll()
+	records, err := csv.NewReader(filePath).ReadAll()
 	if err != nil {
 		return err
 	}
