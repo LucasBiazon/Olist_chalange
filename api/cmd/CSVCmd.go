@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -38,8 +37,12 @@ func CSVCmd() {
 	}
 	defer file.Close()
 
-	fmt.Printf("CSV file: %v opened successfully\n", *csvPath)
-	handler.GetCSV(file)
+	err = handler.CreateAuthors(file)
+	if err != nil {
+		logger.Errorf("Error creating authors: %v", err)
+		os.Exit(1)
+	}
+
 }
 
 func isCSVFile(filePath string) bool {
@@ -48,5 +51,9 @@ func isCSVFile(filePath string) bool {
 }
 
 func main() {
+	logger := config.GetLogger("Main")
+	if err := config.Init(); err != nil {
+		logger.Errorf("Error initializing application: %v", err)
+	}
 	CSVCmd()
 }

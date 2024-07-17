@@ -1,15 +1,18 @@
 package schema
 
-import "gorm.io/gorm"
+import (
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+)
 
 type Author struct {
 	gorm.Model
-	ID   uint   `gorm:"primaryKey"`
+	ID   string `gorm:"primaryKey"`
 	Name string `gorm:"not null"`
 	Book []Book `gorm:"many2many:author_books;"`
 }
 
 type AuthorResponse struct {
-	ID   uint   `json:"id"`
-	Name string `json:"name"`
+	ID   uuid.UUID `json:"id"`
+	Name string    `json:"name"`
 }
