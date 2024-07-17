@@ -1,7 +1,7 @@
 package schema
 
 type Book struct {
-	ID            uint     `gorm:"primaryKey"`
+	ID            string   `gorm:"primaryKey"`
 	Name          string   `gorm:"not null;size:255"`
 	Edition       string   `gorm:"not null;size:255"`
 	PublisherYear string   `gorm:"not null;size:255"`
@@ -9,7 +9,7 @@ type Book struct {
 }
 
 type BookResponse struct {
-	ID            uint     `json:"id"`
+	ID            string   `json:"id"`
 	Name          string   `json:"name"`
 	Edition       string   `json:"edition"`
 	PublisherYear string   `json:"publisher_year"`
