@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	router "github.com/lucasBiazon/olist/api/routes"
 	"github.com/lucasBiazon/olist/config"
 )
 
@@ -10,10 +10,10 @@ var (
 )
 
 func main() {
-	route := gin.Default()
 	logger := config.GetLogger("Main")
 	if err := config.Init(); err != nil {
 		logger.Errorf("Error initializing application: %v", err)
+		return
 	}
-	route.Run(":8080")
+	router.Initialize()
 }
