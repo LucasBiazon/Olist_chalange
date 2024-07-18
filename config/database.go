@@ -3,7 +3,7 @@ package config
 import (
 	"os"
 
-	"github.com/lucasBiazon/olist/api/schema"
+	"github.com/lucasBiazon/olist/schema"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )

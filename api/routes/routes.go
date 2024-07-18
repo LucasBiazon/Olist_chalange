@@ -10,6 +10,8 @@ func initializeRoutes(router *gin.Engine) {
 	basePath := "/api"
 	v1 := router.Group(basePath)
 	{
-		v1.POST("/book", handler.CreatBook)
+		v1.POST("/book", handler.CreateBook)
+		// v1.GET("/book", handler.GetBook)
+		v1.GET("/author", handler.GetAuthors)
 	}
 }
