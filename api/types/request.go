@@ -30,3 +30,17 @@ func (r *CreateBookRequest) Validate() error {
 	}
 	return nil
 }
+
+type UpdateBookRequest struct {
+	Name          string   `json:"name" `
+	Edition       string   `json:"edition" `
+	PublisherYear string   `json:"publisher_year"`
+	Authors       []string `json:"authors" `
+}
+
+func (r *UpdateBookRequest) Validate() error {
+	if r.Name == "" || r.Edition == "" || r.PublisherYear == "" || len(r.Authors) == 0 {
+		return errParamIsRequired("name, edition, publisher_year, authors", "string, string, string, []string")
+	}
+	return nil
+}
