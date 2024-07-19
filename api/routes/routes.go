@@ -11,6 +11,7 @@ func initializeRoutes(router *gin.Engine) {
 	v1 := router.Group(basePath)
 	{
 		v1.POST("/book", handler.CreateBook)
+		v1.GET("/book", handler.GetBook)
 		v1.GET("/books", handler.GetBooks)
 		v1.PUT("/book", handler.UpdateBook)
 		v1.DELETE("/book", handler.DeleteBook)

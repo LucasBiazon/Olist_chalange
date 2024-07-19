@@ -7,34 +7,43 @@ import (
 	"github.com/lucasBiazon/olist/schema"
 )
 
-func GetBooks(ctx *gin.Context) {
-	books := []schema.Book{}
-	if err := database.Preload("Authors").Find(&books).Error; err != nil {
-		logger.Errorf("failed to get authors: %v", err)
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "failed to get authors"})
-		return
+func GetBook(ctx *gin.Context) {
+	id := ctx.Query("id")
+	name := ctx.Query("name")
+	edition := ctx.Query("edition")
+	publisherYear := ctx.Query("publisher_year")
+
+	if id == "" && name == "" && edition == "" && publisherYear == "" {
+		GetBooks(ctx)
 	}
 
-	var responseBooks []gin.H
+	books := []*schema.Book{}
+	query := database.Model(&schema.Book{})
+
+	if id != "" {
+		query = query.Where("id = ?", id)
+	} else if name != "" {
+		query = query.Where("name = ?", name)
+	} else if edition != "" {
+		query = query.Where("edition = ?", edition)
+	} else if publisherYear != "" {
+		query = query.Where("publisher_year = ?", publisherYear)
+	}
+
+	if err := query.Find(&books).Error; err != nil {
+		logger.Errorf("book not found: %v", err)
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "book not found"})
+		return
+	}
+	response := []map[string]interface{}{}
 	for _, book := range books {
-		var responseBookAuthors []gin.H
-		for _, author := range book.Authors {
-			responseBookAuthors = append(responseBookAuthors, gin.H{
-				"ID":   author.ID,
-				"Name": author.Name,
-			})
-		}
-		responseBooks = append(responseBooks, gin.H{
-			"ID":            book.ID,
-			"Name":          book.Name,
-			"Edition":       book.Edition,
-			"PublisherYear": book.PublisherYear,
-			"CreatedAt":     book.CreatedAt,
-			"UpdatedAt":     book.UpdatedAt,
-			"DeletedAt":     book.DeletedAt,
-			"Authors":       responseBookAuthors,
+		response = append(response, map[string]interface{}{
+			"id":             book.ID,
+			"name":           book.Name,
+			"edition":        book.Edition,
+			"publisher_year": book.PublisherYear,
 		})
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"Books": responseBooks})
+	ctx.JSON(http.StatusOK, response)
 }
