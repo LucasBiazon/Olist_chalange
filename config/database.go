@@ -34,7 +34,7 @@ func InitializeDatabase() (*gorm.DB, error) {
 		return nil, err
 	}
 	// Create database tables
-	if err := database.AutoMigrate(&schema.Book{}, &schema.Author{}, &schema.AuthorBook{}); err != nil {
+	if err := database.AutoMigrate(&schema.Book{}, &schema.Author{}); err != nil {
 		logger.Errorf("Error migrating database schema: %v", err)
 		return nil, err
 	}

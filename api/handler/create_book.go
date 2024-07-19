@@ -11,9 +11,8 @@ import (
 
 func CreateBook(ctx *gin.Context) {
 	request := &types.CreateBookRequest{}
-
-	if err := ctx.ShouldBindJSON(request); err != nil {
-		types.SendError(ctx, http.StatusBadRequest, err.Error())
+	if err := ctx.ShouldBindJSON(&request); err != nil {
+		types.SendError(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
 
@@ -22,23 +21,12 @@ func CreateBook(ctx *gin.Context) {
 		return
 	}
 
-	authors := []*schema.Author{}
-	for _, id := range request.Authors {
-		var author schema.Author
-		if err := database.Where("ID = ?", id).Find(&authors).Error; err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "failed to find authors"})
-			return
-		}
-		authors = append(authors, &author)
-	}
-
-	id := uuid.New().String()
+	id := uuid.NewString()
 	book := schema.Book{
 		ID:            id,
 		Name:          request.Name,
 		Edition:       request.Edition,
 		PublisherYear: request.PublisherYear,
-		Authors:       authors,
 	}
 
 	if err := database.Create(&book).Error; err != nil {
@@ -46,6 +34,24 @@ func CreateBook(ctx *gin.Context) {
 		return
 	}
 
-	types.SendSuccess(ctx, "CreateBook", book)
+	for _, authorID := range request.Authors {
+		var author schema.Author
+		if err := database.First(&author, "ID = ?", authorID).Error; err != nil {
+			types.SendError(ctx, http.StatusInternalServerError, err.Error())
+			return
+		}
 
+		if err := database.Model(&book).Association("Authors").Append(&author); err != nil {
+			types.SendError(ctx, http.StatusInternalServerError, "f")
+			return
+		}
+
+		// Associando livro ao autor
+		if err := database.Model(&author).Association("Books").Append(&book); err != nil {
+			types.SendError(ctx, http.StatusInternalServerError, "a")
+			return
+		}
+	}
+
+	types.SendSuccess(ctx, "201", book)
 }

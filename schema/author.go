@@ -8,10 +8,10 @@ import (
 
 type Author struct {
 	gorm.Model
-	ID        string `gorm:"type:uuid;primaryKey"`
-	Name      string `gorm:"not null"`
+	ID        string `gorm:"primaryKey"`
+	Name      string
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index"`
-	Books     []*Book        `gorm:"many2many:authors_books;"`
+	DeletedAt gorm.DeletedAt
+	Books     []*Book `gorm:"many2many:authors_books;" json:"Books"`
 }
