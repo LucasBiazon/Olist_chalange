@@ -9,6 +9,21 @@ import (
 	"github.com/lucasBiazon/olist/schema"
 )
 
+// GetAuthorHandler godoc
+// @Summary Get authors by various filters
+// @Description Get authors based on provided filters (name) or return all authors with pagination
+// @Tags authors
+// @Accept  json
+// @Produce  json
+// @Param name query string false "Author Name"
+// @Param page query int false "Page number" default(1)
+// @Param pageSize query int false "Number of authors per page" default(10)
+// @Success 200 {object} gin.H
+// @Failure 400 {object} types.ErrorResponse
+// @Failure 404 {object} types.ErrorResponse
+// @Failure 500 {object} types.ErrorResponse
+// @Router /authors [get]
+
 func GetAuthorHandler(ctx *gin.Context) {
 
 	name := ctx.Query("name")

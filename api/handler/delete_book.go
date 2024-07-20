@@ -6,6 +6,18 @@ import (
 	"github.com/lucasBiazon/olist/schema"
 )
 
+// DeleteBookHandler godoc
+// @Summary Delete a book
+// @Description Deletes a book from the database based on the provided ID.
+// @Tags books
+// @Accept  json
+// @Produce  json
+// @Param id query string true "Book ID"
+// @Success 200 {object} schema.Book
+// @Failure 400 {object} types.ErrorResponse
+// @Failure 404 {object} types.ErrorResponse
+// @Failure 500 {object} types.ErrorResponse
+// @Router /books [delete]
 func DeleteBookHandler(ctx *gin.Context) {
 	id := ctx.Query("id")
 

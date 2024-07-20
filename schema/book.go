@@ -2,8 +2,6 @@ package schema
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Book struct {
@@ -13,6 +11,6 @@ type Book struct {
 	PublisherYear string
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
-	DeletedAt     gorm.DeletedAt
+	DeletedAt     *time.Time
 	Authors       []*Author `gorm:"many2many:authors_books;" json:"-"`
 }

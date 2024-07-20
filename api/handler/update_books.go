@@ -8,6 +8,19 @@ import (
 	"github.com/lucasBiazon/olist/schema"
 )
 
+// UpdateBookHandler godoc
+// @Summary Update a book
+// @Description Update book details based on provided ID. Supports updating name, edition, publisher year, and authors.
+// @Tags books
+// @Accept  json
+// @Produce  json
+// @Param id query string true "Book ID"
+// @Param book body types.UpdateBookRequest true "Update Book Request"
+// @Success 200 {object} schema.Book
+// @Failure 400 {object} types.ErrorResponse
+// @Failure 404 {object} types.ErrorResponse
+// @Failure 500 {object} types.ErrorResponse
+// @Router /books [put]
 func UpdateBookHandler(ctx *gin.Context) {
 	request := &types.UpdateBookRequest{}
 	id := ctx.Query("id")

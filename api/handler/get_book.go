@@ -8,6 +8,20 @@ import (
 	"github.com/lucasBiazon/olist/schema"
 )
 
+// GetBookHandler godoc
+// @Summary Get books by various filters
+// @Description Get books based on provided filters (id, name, edition, publisher_year) or return all books if no filter is provided
+// @Tags books
+// @Accept  json
+// @Produce  json
+// @Param id query string false "Book ID"
+// @Param name query string false "Book Name"
+// @Param edition query string false "Book Edition"
+// @Param publisher_year query string false "Publisher Year"
+// @Success 200 {array} map[string]interface{}
+// @Failure 400 {object} types.ErrorResponse
+// @Failure 404 {object} types.ErrorResponse
+// @Router /books [get]
 func GetBookHandler(ctx *gin.Context) {
 	id := ctx.Query("id")
 	name := ctx.Query("name")

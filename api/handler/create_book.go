@@ -9,6 +9,18 @@ import (
 	"github.com/lucasBiazon/olist/schema"
 )
 
+// CreateBookHandler godoc
+// @Summary Create a new book
+// @Description Creates a new book with the provided details and associates authors to it.
+// @Tags books
+// @Accept  json
+// @Produce  json
+// @Param book body types.CreateBookRequest true "Create Book Request"
+// @Success 201 {object} schema.Book
+// @Failure 400 {object} types.ErrorResponse
+// @Failure 500 {object} types.ErrorResponse
+// @Router /books [post]
+
 func CreateBookHandler(ctx *gin.Context) {
 	request := &types.CreateBookRequest{}
 	if err := ctx.ShouldBindJSON(&request); err != nil {
@@ -46,7 +58,6 @@ func CreateBookHandler(ctx *gin.Context) {
 			return
 		}
 
-		// Associando livro ao autor
 		if err := database.Model(&author).Association("Books").Append(&book); err != nil {
 			types.SendError(ctx, http.StatusInternalServerError, "a")
 			return
