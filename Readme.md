@@ -39,3 +39,7 @@ O Sistema de Gerenciamento de Biblioteca foi desenvolvido para gerenciar um conj
 ```
   gocsv -csv "./data.csv"
 ```
+
+## Routes:
+
+https://documenter.getpostman.com/view/33427106/2sA3kUG2d5
