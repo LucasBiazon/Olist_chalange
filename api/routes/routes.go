@@ -10,11 +10,11 @@ func initializeRoutes(router *gin.Engine) {
 	basePath := "/api"
 	v1 := router.Group(basePath)
 	{
-		v1.POST("/book", handler.CreateBook)
-		v1.GET("/book", handler.GetBook)
-		v1.GET("/books", handler.GetBooks)
-		v1.PUT("/book", handler.UpdateBook)
-		v1.DELETE("/book", handler.DeleteBook)
-		v1.GET("/authors", handler.GetAuthors)
+		v1.POST("/book", handler.CreateBookHandler)
+		v1.GET("/book", handler.GetBookHandler)
+		v1.PUT("/book", handler.UpdateBookHandler)
+		v1.DELETE("/book", handler.DeleteBookHandler)
+		// v1.POST("/author", handler.CreateAuthorHandler)
+		v1.GET("/author", handler.GetAuthorHandler)
 	}
 }

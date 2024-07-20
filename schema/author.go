@@ -13,5 +13,5 @@ type Author struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt
-	Books     []*Book `gorm:"many2many:authors_books;" json:"Books"`
+	Books     []*Book `gorm:"many2many:authors_books;" json:"-"`
 }

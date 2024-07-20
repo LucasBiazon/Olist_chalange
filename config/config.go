@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	logger   *Logger
 	database *gorm.DB
+	logger   *Logger
 )
 
 func Init() error {

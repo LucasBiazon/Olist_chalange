@@ -4,17 +4,19 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/lucasBiazon/olist/api/types"
 	"github.com/lucasBiazon/olist/schema"
 )
 
-func GetBook(ctx *gin.Context) {
+func GetBookHandler(ctx *gin.Context) {
 	id := ctx.Query("id")
 	name := ctx.Query("name")
 	edition := ctx.Query("edition")
 	publisherYear := ctx.Query("publisher_year")
 
 	if id == "" && name == "" && edition == "" && publisherYear == "" {
-		GetBooks(ctx)
+		GetBooksHandler(ctx)
+		return
 	}
 
 	books := []*schema.Book{}
@@ -22,10 +24,28 @@ func GetBook(ctx *gin.Context) {
 
 	if id != "" {
 		query = query.Where("id = ?", id)
+		if name != "" {
+			query = query.Where("name = ?", name, "id = ?", id)
+		}
+		if edition != "" {
+			query = query.Where("edition = ?", edition, "id = ?", id)
+		}
+		if publisherYear != "" {
+			query = query.Where("publisher_year = ?", publisherYear, "id = ?", id)
+		}
 	} else if name != "" {
 		query = query.Where("name = ?", name)
+		if edition != "" {
+			query = query.Where("edition = ?", edition, "name = ?", name)
+		}
+		if publisherYear != "" {
+			query = query.Where("publisher_year = ?", publisherYear, "name = ?", name)
+		}
 	} else if edition != "" {
 		query = query.Where("edition = ?", edition)
+		if publisherYear != "" {
+			query = query.Where("publisher_year = ?", publisherYear, "edition = ?", edition)
+		}
 	} else if publisherYear != "" {
 		query = query.Where("publisher_year = ?", publisherYear)
 	}
@@ -45,5 +65,5 @@ func GetBook(ctx *gin.Context) {
 		})
 	}
 
-	ctx.JSON(http.StatusOK, response)
+	types.SendSuccess(ctx, "get-book(s) response", response)
 }

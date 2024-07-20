@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/gin-gonic/gin"
 	"github.com/lucasBiazon/olist/api/handler"
 	"github.com/lucasBiazon/olist/config"
 )
@@ -14,7 +15,7 @@ var (
 	logger *config.Logger
 )
 
-func CSVCmd() {
+func CSVCmd(ctx *gin.Context) {
 	csvPath := flag.String("csv", "", "File path")
 	flag.Parse()
 
@@ -37,7 +38,7 @@ func CSVCmd() {
 	}
 	defer file.Close()
 
-	err = handler.CreateAuthors(file)
+	err = handler.CreateAuthorHandler(file)
 	if err != nil {
 		logger.Errorf("Error creating authors: %v", err)
 		os.Exit(1)
@@ -51,9 +52,10 @@ func isCSVFile(filePath string) bool {
 }
 
 func main() {
+	var ctx *gin.Context
 	logger := config.GetLogger("Main")
 	if err := config.Init(); err != nil {
 		logger.Errorf("Error initializing application: %v", err)
 	}
-	CSVCmd()
+	CSVCmd(ctx)
 }

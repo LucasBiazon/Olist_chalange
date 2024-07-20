@@ -9,7 +9,7 @@ import (
 	"github.com/lucasBiazon/olist/schema"
 )
 
-func CreateAuthors(filePath *os.File) error {
+func CreateAuthorHandler(filePath *os.File) error {
 
 	InitializeHandler()
 	records, err := csv.NewReader(filePath).ReadAll()

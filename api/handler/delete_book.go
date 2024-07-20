@@ -6,7 +6,7 @@ import (
 	"github.com/lucasBiazon/olist/schema"
 )
 
-func DeleteBook(ctx *gin.Context) {
+func DeleteBookHandler(ctx *gin.Context) {
 	id := ctx.Query("id")
 
 	if id == "" {

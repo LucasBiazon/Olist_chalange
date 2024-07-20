@@ -8,7 +8,7 @@ import (
 	"github.com/lucasBiazon/olist/schema"
 )
 
-func UpdateBook(ctx *gin.Context) {
+func UpdateBookHandler(ctx *gin.Context) {
 	request := &types.UpdateBookRequest{}
 	id := ctx.Query("id")
 

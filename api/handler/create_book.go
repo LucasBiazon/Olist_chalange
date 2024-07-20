@@ -9,7 +9,7 @@ import (
 	"github.com/lucasBiazon/olist/schema"
 )
 
-func CreateBook(ctx *gin.Context) {
+func CreateBookHandler(ctx *gin.Context) {
 	request := &types.CreateBookRequest{}
 	if err := ctx.ShouldBindJSON(&request); err != nil {
 		types.SendError(ctx, http.StatusInternalServerError, err.Error())
